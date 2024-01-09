@@ -1,0 +1,63 @@
+const express = require("express");
+const router = express.Router();
+const bodyparser = require("body-parser");
+const urlEncoded = bodyparser.urlencoded({
+    limit: "50mb",
+    extended: true,
+});
+const bcrypt = require('bcrypt');
+const { encryptPassword } = require("../../utilities/encryptPassword");
+const { connection } = require("../../database/mysql_connection");
+const { genToken } = require("../../utilities/genToken");
+
+router.post("/api/user/create", urlEncoded, async(req, res) => {
+    const { userName, userEmail, userPassword } = req.body ?? {};
+
+    if(!userName || !userEmail || !userPassword){
+        return res.json({
+            status: "FAIL",
+            message: "Please complete your information",
+        });
+    }
+
+    // check if this user or email already registered 
+    const checkUserHistoryQuery = "SELECT user_email, user_name FROM users WHERE user_email=? OR user_name=?";
+    connection.query(checkUserHistoryQuery, [String(userEmail), String(userName)], async(err, results, fields) =>{
+        if(err){
+            return res.json({
+                status: "FAIL",
+                message: "Cannot check your information",
+            });
+        }
+
+        if(results.length !== 0){
+            return res.json({
+                status: "FAIL",
+                message: `You cannot use this ${results[0].user_email === userEmail ? "email" : "username"} again`,
+            });
+        }
+
+        // get information
+        const getEncryptedPass = await encryptPassword(userPassword);
+        const getToken = await genToken();
+        const getCurrentTimeStamp = new Date().getTime();
+    
+        // create user
+        const createUserQuery = "INSERT INTO users(user_token, user_name, user_email, user_password_hash, create_at) VALUES(?, ?, ?, ?, ?)";
+        connection.query(createUserQuery, [String(getToken), String(userName), String(userEmail), String(getEncryptedPass), String(getCurrentTimeStamp)], async(err, results, fields) =>{
+            if(err){
+                return res.json({
+                    status: "FAIL",
+                    message: "Fail to write data to database",
+                });
+            }
+    
+            return res.json({
+                status: "OK",
+                message: "Create new user success",
+            });
+        });
+    });
+});
+
+module.exports = router;
