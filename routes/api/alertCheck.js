@@ -12,6 +12,7 @@ router.post("/api/alert/check", (req, res) =>{
             message: "Please complete your information",
         });
     }
+    
 
     const getAlertInformationQuery = "SELECT * FROM alert_schedule WHERE box_id=?";
     connection.query(getAlertInformationQuery, [String(boxId)], async(err, results, fields) =>{
@@ -30,7 +31,8 @@ router.post("/api/alert/check", (req, res) =>{
         }
 
         const alertTime = results[0].alert_time;
-        if(parseInt(currentTime) >= parseInt(alertTime)){
+        let makeCurrentYear = currentTime * 1000;
+        if(parseInt(makeCurrentYear) >= parseInt(alertTime)){
             return res.json({
                 status: "OK",
                 message: "Box will alert in a moment",
