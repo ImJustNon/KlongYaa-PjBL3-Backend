@@ -18,7 +18,7 @@ router.post("/api/alert/remove", (req, res) =>{
         if(err){
             return res.json({
                 status: "FAIL",
-                message: "Cannot excute query in this time",
+                message: "Cannot excute query in this time", 
             });
         }
 
