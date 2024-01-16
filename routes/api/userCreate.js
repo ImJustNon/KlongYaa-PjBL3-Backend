@@ -47,7 +47,7 @@ router.post("/api/user/create", urlEncoded, async(req, res) => {
         if(err){
             return res.json({
                 status: "FAIL",
-                message: "Cannot check your information",
+                message: "Cannot check your information" + err,
             });
         }
 
