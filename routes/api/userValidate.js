@@ -19,8 +19,11 @@ router.post("/api/user/validate", urlEncoded, async(req, res) => {
         });
     }
 
+    //make email to lowercase
+    const lowerCaseEmail = userEmail.toLowerCase();
+
     const getInformationQuery = "SELECT user_password_hash, user_token FROM users WHERE user_email=?";
-    connection.query(getInformationQuery, [String(userEmail)], async(err, results, fields) =>{
+    connection.query(getInformationQuery, [String(lowerCaseEmail)], async(err, results, fields) =>{
         if(err){
             return res.json({
                 status: "FAIL",
@@ -31,7 +34,7 @@ router.post("/api/user/validate", urlEncoded, async(req, res) => {
         if(results.length === 0){
             return res.json({
                 status: "FAIL",
-                message: "Cannot find user by this email",
+                message: "Cannot find user",
             });
         }
 
