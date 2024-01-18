@@ -8,10 +8,10 @@ const urlEncoded = bodyparser.urlencoded({
 });
 
 
-router.post("/api/box/register", urlEncoded, async(req, res) => {
-    const { boxId, boxName, userToken } = req.body ?? {};
+router.post("/api/box/remove", urlEncoded, async(req, res) => {
+    const { boxId, userToken } = req.body ?? {};
 
-    if(!boxId || !boxName || !userToken){
+    if(!boxId || !userToken){
         return res.json({
             status: "FAIL",
             message: "Please complete your information"
@@ -31,7 +31,7 @@ router.post("/api/box/register", urlEncoded, async(req, res) => {
         if(results.length === 0){
             return res.json({
                 status: "FAIL",
-                message: "Cannot find this user or this user is not available",
+                message: "Cannot find this user or this user is not available"
             });
         }
 
@@ -48,24 +48,23 @@ router.post("/api/box/register", urlEncoded, async(req, res) => {
             if(results.length !== 0){
                 return res.json({
                     status: "FAIL",
-                    message: "This box already registerd"
+                    message: "This box already registered"
                 });
             }
 
-            // insert new data to table
-            const currentTimestamp = new Date().getTime();
-            const registerNewBoxQuery = "INSERT INTO box_information(box_id, box_name, user_token, register_at) VALUES(?,?,?,?)";
-            connection.query(registerNewBoxQuery, [String(boxId), String(boxName), String(userToken), String(currentTimestamp)], (err, results, fields) =>{
+            // update for delete data
+            const removeBoxQuery = "DELETE FROM box_information WHERE box_id=? AND user_token=?";
+            connection.query(removeBoxQuery, [String(boxId), String(userToken)], (err, results, fields) =>{
                 if(err){
                     return res.json({
                         status: "FAIL",
-                        message: "Cannot query data in this time",                
+                        message: "cannot query data in this time",
                     });
                 }
 
                 return res.json({
                     status: "OK",
-                    message: "Register the new box Successful",
+                    message: "Remove box information success"
                 });
             });
         });
