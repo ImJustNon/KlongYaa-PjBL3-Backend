@@ -37,7 +37,7 @@ router.post("/api/box/register", urlEncoded, async(req, res) => {
 
         // check if this box is already registered
         const checkBoxRegisteredQuery = "SELECT box_id FROM box_information WHERE user_token=? AND box_id=?";
-        connection.query(checkBoxRegisteredQuery, [String(userToken)], (err, results, fields) =>{
+        connection.query(checkBoxRegisteredQuery, [String(userToken), String(boxId)], (err, results, fields) =>{
             if(err){
                 return res.json({
                     status: "FAIL",
