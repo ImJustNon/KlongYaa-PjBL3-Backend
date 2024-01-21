@@ -45,10 +45,10 @@ router.post("/api/box/remove", urlEncoded, async(req, res) => {
                 });
             }
 
-            if(results.length !== 0){
+            if(results.length === 0){
                 return res.json({
                     status: "FAIL",
-                    message: "This box already registered"
+                    message: "This box have not registered yet",
                 });
             }
 
