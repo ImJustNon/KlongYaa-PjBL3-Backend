@@ -24,7 +24,6 @@ router.post("/api/box/list", urlEncoded, async(req, res) => {
             return res.json({
                 status: "FAIL",
                 message: "Cannot search your info in this time",
-                error: err,
             });
         }
 
