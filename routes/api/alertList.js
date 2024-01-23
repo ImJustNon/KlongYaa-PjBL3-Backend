@@ -8,8 +8,8 @@ const urlEncoded = bodyparser.urlencoded({
 });
 
 
-router.post("/api/box/list", urlEncoded, async(req, res) => {
-    const { userToken } = req.body ?? {};
+router.post("/api/alert/list", urlEncoded, async(req, res) => {
+    const { userToken, boxId } = req.body ?? {};
 
     if(!userToken){
         return res.json({
@@ -18,44 +18,42 @@ router.post("/api/box/list", urlEncoded, async(req, res) => {
         });
     }
 
-    // validate user first
+    // check valid user
     const validateUserQuery = "SELECT user_id FROM users WHERE user_token=?";
     connection.query(validateUserQuery, [String(userToken)], (err, results, fields) =>{
         if(err){
             return res.json({
                 status: "FAIL",
-                message: "Cannot verify user in this time",
-            }); 
+                message: "cannot verify user in this time"
+            });
         }
 
         if(results.length === 0){
             return res.json({
                 status: "FAIL",
-                message: "user is invalid",
-            }); 
+                message: "User is invalid"
+            });
         }
 
         // get data
-        const searchBoxQuery = "SELECT * FROM box_information WHERE user_token=?";
-        connection.query(searchBoxQuery, [String(userToken)], (err, results, fields) =>{
+        const searchAlertQuery = "SELECT * FROM alert_information WHERE user_token=? AND box_id=?";
+        connection.query(searchAlertQuery, [String(userToken), String(boxId)], (err, results, fields) =>{
             if(err){
                 return res.json({
                     status: "FAIL",
-                    message: "Cannot search your info in this time",
+                    message: "Cannot search alert list in this time",
                 });
             }
-    
-            return res.json({
+
+            return  res.json({
                 status: "OK",
-                message: "query your data success",
+                message: "Search success",
                 data: {
-                    results: results
+                    results: results,
                 }
             });
         });
     });
-
-
     
 });
 
