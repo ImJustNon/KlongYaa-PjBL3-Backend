@@ -46,7 +46,6 @@ router.post("/api/alert/create", urlEncoded, async(req, res) => {
                 return res.json({
                     status: "FAIL",
                     message: "Cannot create information to database",
-                    error: err
                 });
             }
     
