@@ -36,17 +36,21 @@ router.post("/api/alert/update", urlEncoded, async(req, res) => {
             });
         }
         let updateQuery = "";
+        let updateData = "";
         if(update.toLowerCase() === "alertname"){
             updateQuery = "UPDATE alert_information SET alert_name=? WHERE box_id=? AND alert_id=?";
+            updateData = data;
         }
         if(update.toLowerCase() === "alerttime"){   
             updateQuery = "UPDATE alert_information SET alert_time=? WHERE box_id=? AND alert_id=?";
+            updateData = data;
         }
         if(update.toLowerCase() === "alertledchannel"){
             updateQuery = "UPDATE alert_information SET led_channel_id=? WHERE box_id=? AND alert_id=?";
+            updateData = JSON.stringify(data);
         }
 
-        connection.query(updateQuery, [String(data), String(boxId), String(alertId)], (err, results, fields) =>{
+        connection.query(updateQuery, [String(updateData), String(boxId), String(alertId)], (err, results, fields) =>{
             if(err){
                 return res.json({
                     status: "FAIL",
