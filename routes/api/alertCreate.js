@@ -10,9 +10,9 @@ const urlEncoded = bodyparser.urlencoded({
 
 
 router.post("/api/alert/create", urlEncoded, async(req, res) => {
-    const { alertTime, userToken, boxId, ledChannelId } = req.body ?? {};
+    const { alertTime, userToken, boxId, ledChannelId, alertName } = req.body ?? {};
 
-    if(!alertTime || !userToken || !boxId || !ledChannelId){
+    if(!alertTime || !userToken || !boxId || !ledChannelId || alertName){
         return res.json({
             status: "FAIL",
             message: "Please complete your information",
@@ -40,8 +40,8 @@ router.post("/api/alert/create", urlEncoded, async(req, res) => {
         const ledChannelIdJson = JSON.stringify(ledChannelId);
         const createAt = new Date().getTime();
         const alertId = ramdomString(10);
-        const createAlertQuery = "INSERT INTO alert_information(alert_id, alert_time, user_token, box_id, create_at, led_channel_id) VALUES(?, ?, ?, ?, ?, ?)";
-        connection.query(createAlertQuery, [String(alertId), String(alertTime), String(userToken), String(boxId), String(createAt), String(ledChannelIdJson)], async(err, results, fields) =>{
+        const createAlertQuery = "INSERT INTO alert_information(alert_id, alert_name,alert_time, user_token, box_id, create_at, led_channel_id) VALUES(?, ?, ?, ?, ?, ?, ?)";
+        connection.query(createAlertQuery, [String(alertId), String(alertName), String(alertTime), String(userToken), String(boxId), String(createAt), String(ledChannelIdJson)], async(err, results, fields) =>{
             if(err){
                 return res.json({
                     status: "FAIL",
