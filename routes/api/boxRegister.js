@@ -52,21 +52,41 @@ router.post("/api/box/register", urlEncoded, async(req, res) => {
                 });
             }
 
-            // insert new data to table
-            const currentTimestamp = new Date().getTime();
-            const registerNewBoxQuery = "INSERT INTO box_information(box_id, box_name, user_token, register_at) VALUES(?,?,?,?)";
-            connection.query(registerNewBoxQuery, [String(boxId), String(boxName), String(userToken), String(currentTimestamp)], (err, results, fields) =>{
+            
+            // check for verify boxId from database before insert to user data
+            const getDefaultDataByIdQuery = "SELECT box_id FROM boxes WHERE box_id=?";
+            connection.query(getDefaultDataByIdQuery, [String(boxId)], (err, results, fields) =>{
                 if(err){
                     return res.json({
                         status: "FAIL",
-                        message: "Cannot query data in this time",                
+                        message: "Cannot check default data in this time",
                     });
                 }
 
-                return res.json({
-                    status: "OK",
-                    message: "Register the new box Successful",
+                if(results.length === 0){
+                    return res.json({
+                        status: "FAIL",
+                        message: "This ID is invalid ID"
+                    });
+                }
+
+                // insert new data to table
+                const currentTimestamp = new Date().getTime();
+                const registerNewBoxQuery = "INSERT INTO box_information(box_id, box_name, user_token, register_at) VALUES(?,?,?,?)";
+                connection.query(registerNewBoxQuery, [String(boxId), String(boxName), String(userToken), String(currentTimestamp)], (err, results, fields) =>{
+                    if(err){
+                        return res.json({
+                            status: "FAIL",
+                            message: "Cannot query data in this time",                
+                        });
+                    }
+
+                    return res.json({
+                        status: "OK",
+                        message: "Register the new box Successful",
+                    });
                 });
+
             });
         });
     });
