@@ -1,46 +1,53 @@
 const express = require("express");
 const router = express.Router();
 const { connection } = require("../../database/mysql_connection");
+const bodyparser = require("body-parser");
+const urlEncoded = bodyparser.urlencoded({
+    limit: "50mb",
+    extended: true,
+});
 
-
-router.post("/api/alert/remove", (req, res) =>{
-    const { userId, boxId } = req.body ?? {}; 
+router.post("/api/alert/remove", urlEncoded, (req, res) =>{
+    const { alertId, boxId, userToken } = req.body ?? {}; 
     
-    if(!userId || !boxId){
+    if(!alertId || !boxId || !userToken){
         return res.json({
             status: "FAIL",
             message: "Please complete your information",
         });
     }
-    
-    const findInformationQuery = "SELECT alert_id FROM alert_schedule WHERE user_id=? AND box_id=?";
-    connection.query(findInformationQuery, [String(userId), String(boxId)], async(err, results, fields) =>{
+
+
+    // check validate user
+    const validateUserQuery = "SELECT user_id FROM users WHERE user_token=?";
+    connection.query(validateUserQuery, [String(userToken)], (err, results, fields) =>{
         if(err){
             return res.json({
                 status: "FAIL",
-                message: "Cannot excute query in this time", 
+                message: "Cannot veify user in this time",
             });
         }
-
+        
         if(results.length === 0){
             return res.json({
                 status: "FAIL",
-                message: "Cannot find information from this data",
+                message: "User is invalid",
             });
         }
 
-        const deleteAlertQuery = "DELETE FROM alert_schedule WHERE user_id=? AND box_id=?";
-        connection.query(deleteAlertQuery, [String(userId), String(boxId)], async(err, results, fields) =>{
+        // run remove query
+        const removeAlertQuery = "DELETE FROM alert_information WHERE box_id=? AND alert_id=?";
+        connection.query(removeAlertQuery, [String(boxId), String(alertId)], (err, results, fields) =>{
             if(err){
                 return res.json({
                     status: "FAIL",
-                    message: "Cannot delete information from database",
+                    message: "Cannot remove alert data in this time"
                 });
             }
 
             return res.json({
                 status: "OK",
-                message: "success"
+                message: "Remove alert success"
             });
         });
     });
