@@ -12,7 +12,7 @@ const urlEncoded = bodyparser.urlencoded({
 router.post("/api/alert/create", urlEncoded, async(req, res) => {
     const { alertTime, userToken, boxId, ledChannelId, alertName } = req.body ?? {};
 
-    if(!alertTime || !userToken || !boxId || !ledChannelId || alertName){
+    if(!alertTime || !userToken || !boxId || !ledChannelId || !alertName){
         return res.json({
             status: "FAIL",
             message: "Please complete your information",
