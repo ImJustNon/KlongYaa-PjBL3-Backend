@@ -84,7 +84,7 @@ router.post("/api/user/resetpass/sendmail", urlEncoded, async(req, res) => {
                         message: "Cannot craete verify code",
                     });
                 }
-                
+
                 const mailOptions = {
                     from: 'non.kanakorn006.sg@gmail.com',
                     to: lowerCaseUserEmail,
@@ -95,7 +95,7 @@ router.post("/api/user/resetpass/sendmail", urlEncoded, async(req, res) => {
                     if(error) {
                         return res.json({
                             status: "FAIL",
-                            message: "Fail to send the email"
+                            message: "Fail to send the email" + error
                         });
                     }
                     return res.json({
