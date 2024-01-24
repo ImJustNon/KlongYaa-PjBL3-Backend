@@ -95,7 +95,7 @@ router.post("/api/user/resetpass/sendmail", urlEncoded, async(req, res) => {
                     if(error) {
                         return res.json({
                             status: "FAIL",
-                            message: "Fail to send the email" + error
+                            message: "Fail to send the email"
                         });
                     }
                     return res.json({
