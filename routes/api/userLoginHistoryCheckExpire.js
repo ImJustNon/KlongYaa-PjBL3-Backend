@@ -93,7 +93,7 @@ router.post("/api/user/login/history/checkexpire", urlEncoded, async(req, res) =
 
                 return res.json({
                     status: "OK",
-                    message: "Your session expired",
+                    message: "Your session have not expire yet",
                     data: {
                         isExpire: false,
                     }
