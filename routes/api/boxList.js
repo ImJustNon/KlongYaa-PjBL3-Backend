@@ -36,7 +36,7 @@ router.post("/api/box/list", urlEncoded, async(req, res) => {
         }
 
         // get data
-        const searchBoxQuery = "SELECT * FROM box_information WHERE user_token=?";
+        const searchBoxQuery = "SELECT box_id, box_name FROM box_information WHERE user_token=?";
         connection.query(searchBoxQuery, [String(userToken)], (err, results, fields) =>{
             if(err){
                 return res.json({
