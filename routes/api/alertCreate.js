@@ -3,6 +3,7 @@ const router = express.Router();
 const bodyparser = require("body-parser");
 const { connection } = require("../../database/mysql_connection");
 const { ramdomString } = require("../../utilities/randomString");
+const { convertDateObjToTimestamp } = require("../../utilities/convertDateObjToTimestamp");
 const urlEncoded = bodyparser.urlencoded({
     limit: "50mb",
     extended: true,
@@ -37,11 +38,12 @@ router.post("/api/alert/create", urlEncoded, async(req, res) => {
         }
 
         // insert data
+        const convertedConfigTime = convertDateObjToTimestamp(alertTime);
         const ledChannelIdJson = JSON.stringify(ledChannelId);
         const createAt = new Date().getTime();
         const alertId = ramdomString(10);
         const createAlertQuery = "INSERT INTO alert_information(alert_id, alert_name, alert_time, user_token, box_id, create_at, led_channel_id) VALUES(?, ?, ?, ?, ?, ?, ?)";
-        connection.query(createAlertQuery, [String(alertId), String(alertName), String(alertTime), String(userToken), String(boxId), String(createAt), String(ledChannelIdJson)], async(err, results, fields) =>{
+        connection.query(createAlertQuery, [String(alertId), String(alertName), String(convertedConfigTime), String(userToken), String(boxId), String(createAt), String(ledChannelIdJson)], async(err, results, fields) =>{
             if(err){
                 return res.json({
                     status: "FAIL",
