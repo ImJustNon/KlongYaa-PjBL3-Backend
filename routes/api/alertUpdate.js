@@ -3,6 +3,7 @@ const router = express.Router();
 const bodyparser = require("body-parser");
 const { connection } = require("../../database/mysql_connection");
 const { ramdomString } = require("../../utilities/randomString");
+const { convertDateObjToTimestamp } = require("../../utilities/convertDateObjToTimestamp");
 const urlEncoded = bodyparser.urlencoded({
     limit: "50mb",
     extended: true,
@@ -43,7 +44,7 @@ router.post("/api/alert/update", urlEncoded, async(req, res) => {
         }
         if(update.toLowerCase() === "alerttime"){   
             updateQuery = "UPDATE alert_information SET alert_time=? WHERE box_id=? AND alert_id=?";
-            updateData = data;
+            updateData = convertDateObjToTimestamp(data);
         }
         if(update.toLowerCase() === "alertledchannel"){
             updateQuery = "UPDATE alert_information SET led_channel_id=? WHERE box_id=? AND alert_id=?";
