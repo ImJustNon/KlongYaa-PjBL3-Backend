@@ -17,7 +17,7 @@ router.post("/api/user/login/google/callback", urlEncoded, async(req, res) => {
             status: "FAIL",
             message: "Code not found"
         });
-    }
+    } 
 
     try {
         const response = await axios.post('https://oauth2.googleapis.com/token', `code=${code}&client_id=${config.apis.google.auth.clientId}&client_secret=${config.apis.google.auth.clientSecret}&redirect_uri=${config.apis.google.auth.callbackURL}&grant_type=authorization_code`, {
