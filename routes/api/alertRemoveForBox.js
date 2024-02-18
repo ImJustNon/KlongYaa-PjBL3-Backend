@@ -18,40 +18,62 @@ router.post("/api/alert/remove", urlEncoded, (req, res) =>{
         });
     }
 
+    if(secretApiKey !== config.app.secretApiKey){
+        return res.json({
+            status: "FAIL",
+            message: "Invalid api key",
+        });
+    }
 
-    // // check validate user
-    // const validateUserQuery = "SELECT user_id FROM users WHERE user_token=?";
-    // connection.query(validateUserQuery, [String(userToken)], (err, results, fields) =>{
-    //     if(err){
-    //         return res.json({
-    //             status: "FAIL",
-    //             message: "Cannot veify user in this time",
-    //         });
-    //     }
-        
-    //     if(results.length === 0){
-    //         return res.json({
-    //             status: "FAIL",
-    //             message: "User is invalid",
-    //         });
-    //     }
+    const validateBoxIdQuery = "SELECT box_id FROM box_information WHERE box_id=?";
+    connection.query(validateBoxIdQuery, [String(boxId)], (err, results, fields) =>{
+        if(err){
+            return res.json({
+                status: "FAIL",
+                message: "Cannot validate box id in this time",
+            });
+        }
 
-    //     // run remove query
-    //     const removeAlertQuery = "DELETE FROM alert_information WHERE box_id=? AND alert_id=?";
-    //     connection.query(removeAlertQuery, [String(boxId), String(alertId)], (err, results, fields) =>{
-    //         if(err){
-    //             return res.json({
-    //                 status: "FAIL",
-    //                 message: "Cannot remove alert data in this time"
-    //             });
-    //         }
+        if(results.length === 0){
+            return res.json({
+                status: "FAIL",
+                message: "BoxId is in valid",
+            });
+        }
 
-    //         return res.json({
-    //             status: "OK",
-    //             message: "Remove alert success"
-    //         });
-    //     });
-    // });
+        const validateAlertId = "SELECT alert_id FROM alert_information WHERE alert_id=?";
+        connection.query(validateAlertId, [String(alertId)], (err, results, fields) =>{
+            if(err){
+                return res.json({
+                    status: "FAIL",
+                    message: "Cannot validate alert id in this time",
+                });
+            }
+
+            if(results.length === 0){
+                return res.json({
+                    status: "FAIL",
+                    message: "AlertId is in valid",
+                }); 
+            }
+
+            // remove query
+            const removeAlertScheduleQuery = "DELETE FROM alert_information WHERE alert_id=? AND box_id=?";
+            connection.query(removeAlertScheduleQuery, [String(alertId), String(boxId)], (err, results, fields) =>{
+                if(err){
+                    return res.json({
+                        status: "FAIL",
+                        message: "Cannot remove alert schedule in this time",
+                    });
+                }
+
+                return res.json({
+                    status: "OK",
+                    message: "Remove alert success",
+                });
+            });
+        });
+    });
 });
 
 module.exports = router;
