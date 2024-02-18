@@ -58,6 +58,7 @@ router.post("/api/alert/check", (req, res) =>{
                         alert: "true",
                         alertId: sortedResults[0].alert_id,
                         ledChannel: ledCh,
+                        ledSize: ledCh.length,
                     }   
                 });
             }
