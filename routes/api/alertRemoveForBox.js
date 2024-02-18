@@ -18,7 +18,7 @@ router.post("/api/alert/removeforbox", urlEncoded, (req, res) =>{
         });
     }
 
-    if(secretApiKey !== config.app.secretApiKey){
+    if(!config.app.secretApiKey.includes(secretApiKey)){
         return res.json({
             status: "FAIL",
             message: "Invalid api key",
