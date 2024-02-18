@@ -47,9 +47,8 @@ router.post("/api/alert/check", (req, res) =>{
 
             const sortedResults = results.sort((a, b) => parseInt(a.alert_time) - parseInt(b.alert_time));
             const alertTime = sortedResults[0].alert_time;
-            // let makeCurrentYear = currentTime * 1000;
-            let makeCurrentYear = currentTime;
-            if(parseInt(makeCurrentYear) >= parseInt(alertTime)){
+            let makePlus7TimeZone = parseInt(currentTime) + (7 * 60 * 60 * 1000);
+            if(parseInt(makePlus7TimeZone) >= parseInt(alertTime)){
                 const ledCh = [];
                 (JSON.parse(sortedResults[0].led_channel_id)).forEach(ch => ledCh.push(parseInt(ch)));
                 return res.json({
