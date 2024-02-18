@@ -49,13 +49,15 @@ router.post("/api/alert/check", (req, res) =>{
             const alertTime = sortedResults[0].alert_time;
             let makeCurrentYear = currentTime * 1000;
             if(parseInt(makeCurrentYear) >= parseInt(alertTime)){
+                const ledCh = [];
+                (JSON.parse(sortedResults[0].led_channel_id)).forEach(ch => ledCh.push(parseInt(ch)));
                 return res.json({
                     status: "OK",
                     message: "Box will alert in a moment",
                     data: {
                         alert: true,
                         alertId: sortedResults[0].alert_id,
-                        ledChannel: JSON.parse(sortedResults[0].led_channel_id),
+                        ledChannel: ledCh,
                     }   
                 });
             }
