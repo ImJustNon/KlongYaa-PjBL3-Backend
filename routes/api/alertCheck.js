@@ -55,7 +55,7 @@ router.post("/api/alert/check", (req, res) =>{
                     data: {
                         alert: true,
                         alertId: sortedResults[0].alert_id,
-                        ledChannel: JSON.parse(sortedResults[0].led_channel_id);
+                        ledChannel: JSON.parse(sortedResults[0].led_channel_id),
                     }   
                 });
             }
