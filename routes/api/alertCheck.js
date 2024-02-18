@@ -54,7 +54,8 @@ router.post("/api/alert/check", (req, res) =>{
                     message: "Box will alert in a moment",
                     data: {
                         alert: true,
-                        alertId: results[0].alert_id
+                        alertId: sortedResults[0].alert_id,
+                        ledChannel: JSON.parse(sortedResults[0].led_channel_id);
                     }   
                 });
             }

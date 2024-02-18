@@ -3,7 +3,8 @@ require("dotenv").config();
 module.exports = {
     app: {
         port: process.env.PORT,
-        address: "http://127.0.0.1"
+        address: "http://127.0.0.1",
+        secretApiKey: ["there_is_no_key_lol"],
     },
     database: {
         mysql: {
