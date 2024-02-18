@@ -55,7 +55,7 @@ router.post("/api/alert/check", (req, res) =>{
                     status: "OK",
                     message: "Box will alert in a moment",
                     data: {
-                        alert: true,
+                        alert: "true",
                         alertId: sortedResults[0].alert_id,
                         ledChannel: ledCh,
                     }   
@@ -66,7 +66,7 @@ router.post("/api/alert/check", (req, res) =>{
                     status: "OK",
                     message: "It's not time to alert yet",
                     data: {
-                        alert: false,
+                        alert: "false",
                     }
                 });
             }
