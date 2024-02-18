@@ -11,7 +11,7 @@ const config = require("../../config/config");
 router.post("/api/alert/removeforbox", urlEncoded, (req, res) =>{
     const { alertId, boxId, secretApiKey } = req.body ?? {}; 
     
-    if(!alertId || !boxId || !userToken){
+    if(!alertId || !boxId || !secretApiKey){
         return res.json({
             status: "FAIL",
             message: "Please complete your information",
