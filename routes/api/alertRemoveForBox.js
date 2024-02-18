@@ -8,7 +8,7 @@ const urlEncoded = bodyparser.urlencoded({
 });
 const config = require("../../config/config");
 
-router.post("/api/alert/remove", urlEncoded, (req, res) =>{
+router.post("/api/alert/removeforbox", urlEncoded, (req, res) =>{
     const { alertId, boxId, secretApiKey } = req.body ?? {}; 
     
     if(!alertId || !boxId || !userToken){
