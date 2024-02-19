@@ -25,6 +25,7 @@ router.post("/api/box/register", urlEncoded, async(req, res) => {
             return res.json({
                 status: "FAIL",
                 message: "Cannot query data in this time",
+                error: err
             });
         }
 
@@ -41,7 +42,8 @@ router.post("/api/box/register", urlEncoded, async(req, res) => {
             if(err){
                 return res.json({
                     status: "FAIL",
-                    message: "Cannot query data in this time"
+                    message: "Cannot query data in this time",
+                    error: err
                 });
             }
 
@@ -60,6 +62,7 @@ router.post("/api/box/register", urlEncoded, async(req, res) => {
                     return res.json({
                         status: "FAIL",
                         message: "Cannot check default data in this time",
+                        error: err
                     });
                 }
 
@@ -77,7 +80,8 @@ router.post("/api/box/register", urlEncoded, async(req, res) => {
                     if(err){
                         return res.json({
                             status: "FAIL",
-                            message: "Cannot query data in this time",                
+                            message: "Cannot query data in this time",           
+                            error: err     
                         });
                     }
 

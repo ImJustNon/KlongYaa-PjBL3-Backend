@@ -21,6 +21,7 @@ router.post("/api/device/create", urlEncoded, async(req, res) => {
             return res.json({
                 status: "FAIL",
                 message: "Cannot create new device id in this time",
+                error: err
             });
         }
 

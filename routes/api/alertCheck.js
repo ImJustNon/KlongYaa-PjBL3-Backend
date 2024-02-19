@@ -19,6 +19,7 @@ router.post("/api/alert/check", (req, res) =>{
             return res.json({
                 status: "FAIL",
                 message: "cannot get box information in this time",
+                error: err
             });
         }
         
@@ -35,6 +36,7 @@ router.post("/api/alert/check", (req, res) =>{
                 return res.json({
                     status: "FAIL",
                     message: "Cannot get information from database",
+                    error: err
                 });
             }
     

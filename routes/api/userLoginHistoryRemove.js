@@ -28,7 +28,8 @@ router.post("/api/user/login/history/remove", urlEncoded, async(req, res) => {
         if(err){
             return res.json({
                 status: "FAIL",
-                message: "Cannot validate user in this time"
+                message: "Cannot validate user in this time",
+                error: err
             });
         }
 
@@ -45,7 +46,8 @@ router.post("/api/user/login/history/remove", urlEncoded, async(req, res) => {
             if(err){
                 return res.json({
                     status: "FAIL",
-                    message: "Cannot validate device in this time"
+                    message: "Cannot validate device in this time",
+                    error: err
                 });
             }
 
@@ -63,6 +65,7 @@ router.post("/api/user/login/history/remove", urlEncoded, async(req, res) => {
                     return res.json({
                         status: "FAIL",
                         message: "Cannot get login history information in this time",
+                        error: err
                     });
                 }
 

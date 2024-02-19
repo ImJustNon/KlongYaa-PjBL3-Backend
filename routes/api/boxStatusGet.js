@@ -26,6 +26,7 @@ router.post("/api/box/status/get/all", urlEncoded, async(req, res) => {
             return res.json({
                 status: "FAIL",
                 message: "Cannot validate your identity in this time",
+                error: err
             });
         }
 
@@ -42,7 +43,8 @@ router.post("/api/box/status/get/all", urlEncoded, async(req, res) => {
             if(err){
                 return res.json({
                     status: "FAIL",
-                    message: "cannot validate your information in this time"
+                    message: "cannot validate your information in this time",
+                    error: err
                 });
             }
 

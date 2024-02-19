@@ -24,7 +24,8 @@ router.post("/api/box/schedule/get", urlEncoded, async(req, res) => {
         if(err){
             return res.json({
                 status: "FAIL",
-                message: "Cannot validate user in this time"
+                message: "Cannot validate user in this time",
+                error: err
             });
         }
 
@@ -41,7 +42,8 @@ router.post("/api/box/schedule/get", urlEncoded, async(req, res) => {
             if(err){
                 return res.json({
                     status: "FAIL",
-                    message: "Fail to get your alert information"
+                    message: "Fail to get your alert information",
+                    error: err
                 });
             }
 

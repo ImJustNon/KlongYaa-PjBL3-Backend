@@ -31,6 +31,7 @@ router.post("/api/alert/removeforbox", urlEncoded, (req, res) =>{
             return res.json({
                 status: "FAIL",
                 message: "Cannot validate box id in this time",
+                error: err
             });
         }
 
@@ -47,6 +48,7 @@ router.post("/api/alert/removeforbox", urlEncoded, (req, res) =>{
                 return res.json({
                     status: "FAIL",
                     message: "Cannot validate alert id in this time",
+                    error: err
                 });
             }
 
@@ -64,6 +66,7 @@ router.post("/api/alert/removeforbox", urlEncoded, (req, res) =>{
                     return res.json({
                         status: "FAIL",
                         message: "Cannot remove alert schedule in this time",
+                        error: err
                     });
                 }
 

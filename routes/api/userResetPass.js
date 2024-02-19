@@ -33,6 +33,7 @@ router.post("/api/user/resetpass/sendmail", urlEncoded, async(req, res) => {
             return res.json({
                 status: "FAIL",
                 message: "Cannot verify email in this time",
+                error: err
             });
         }
 
@@ -50,6 +51,7 @@ router.post("/api/user/resetpass/sendmail", urlEncoded, async(req, res) => {
                 return res.json({
                     status: "FAIL",
                     message: "cannot check the last code in this time",
+                    error: err
                 });
             }
 
@@ -59,7 +61,8 @@ router.post("/api/user/resetpass/sendmail", urlEncoded, async(req, res) => {
                     if(err){
                         return res.json({
                             status: "FAIL",
-                            message: "Cannot delete data in this time"
+                            message: "Cannot delete data in this time",
+                            error: err
                         });
                     }
 
@@ -82,6 +85,7 @@ router.post("/api/user/resetpass/sendmail", urlEncoded, async(req, res) => {
                     return res.json({
                         status: "FAIL",
                         message: "Cannot craete verify code",
+                        error: err
                     });
                 }
 
@@ -138,6 +142,7 @@ router.post("/api/user/resetpass/verify", urlEncoded, async(req, res) => {
             return res.json({
                 status: "FAIL",
                 message: "Cannot check code age in this tinme",
+                error: err
             });
         }
 
@@ -157,6 +162,7 @@ router.post("/api/user/resetpass/verify", urlEncoded, async(req, res) => {
                     return res.json({
                         status: "FAIL",
                         message: "Fail to delete timeout code",
+                        error: err
                     });
                 }
                 return res.json({
@@ -173,6 +179,7 @@ router.post("/api/user/resetpass/verify", urlEncoded, async(req, res) => {
                     return res.json({
                         status: "FAIL",
                         message: "Cannot verify code in this time",
+                        error: err
                     });
                 }
 
@@ -191,6 +198,7 @@ router.post("/api/user/resetpass/verify", urlEncoded, async(req, res) => {
                         return res.json({
                             status: "FAIL",
                             message: "Fail to save new password",
+                            error: err
                         });
                     }
 
@@ -201,6 +209,7 @@ router.post("/api/user/resetpass/verify", urlEncoded, async(req, res) => {
                             return res.json({
                                 status: "FAIL",
                                 message: "Cannot delete used verify code",
+                                error: err
                             }); 
                         }
 

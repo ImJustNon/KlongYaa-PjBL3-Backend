@@ -26,6 +26,7 @@ router.post("/api/alert/get", urlEncoded, async(req, res) => {
             return res.json({
                 status: "FAIL",
                 message: "Cannot verify user in this time",
+                error: err
             });
         }
 
@@ -43,6 +44,7 @@ router.post("/api/alert/get", urlEncoded, async(req, res) => {
                 return res.json({
                     status: "FAIL",
                     message: "Cannot search data in this time",
+                    error: err
                 });
             }
 

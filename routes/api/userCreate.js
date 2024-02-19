@@ -48,6 +48,7 @@ router.post("/api/user/create", urlEncoded, async(req, res) => {
             return res.json({
                 status: "FAIL",
                 message: "Cannot check your information",
+                error: err
             });
         }
 
@@ -70,6 +71,7 @@ router.post("/api/user/create", urlEncoded, async(req, res) => {
                 return res.json({
                     status: "FAIL",
                     message: "Fail to write data to database",
+                    error: err
                 });
             }
     

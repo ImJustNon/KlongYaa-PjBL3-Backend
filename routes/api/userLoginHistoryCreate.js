@@ -28,6 +28,7 @@ router.post("/api/user/login/history/create", urlEncoded, async(req, res) => {
             return res.json({
                 status: "FAIL",
                 message: "Cannot validate user in this time",
+                error: err
             });
         }
 
@@ -45,6 +46,7 @@ router.post("/api/user/login/history/create", urlEncoded, async(req, res) => {
                 return res.json({
                     status: "FAIL",
                     message: "Cannot validate device in this time",
+                    error: err
                 });
             }
 
@@ -69,6 +71,7 @@ router.post("/api/user/login/history/create", urlEncoded, async(req, res) => {
                     return res.json({
                         status: "FAIL",
                         message: "Cannot create new login history in this time",
+                        error: err
                     });
                 }
         

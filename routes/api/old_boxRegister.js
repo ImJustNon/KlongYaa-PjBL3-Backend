@@ -25,6 +25,7 @@ router.post("/api/old/box/register", urlEncoded, async(req, res) => {
             return res.json({
                 status: "FAIL",
                 message: "Cannot get information from database" + err,
+                error: err
             });
         }
 
@@ -42,6 +43,7 @@ router.post("/api/old/box/register", urlEncoded, async(req, res) => {
                 return res.json({
                     status: "FAIL",
                     message: "Cannot update information to database",
+                    error: err
                 });
             }
 

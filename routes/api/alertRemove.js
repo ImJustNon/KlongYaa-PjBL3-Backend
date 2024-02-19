@@ -25,6 +25,7 @@ router.post("/api/alert/remove", urlEncoded, (req, res) =>{
             return res.json({
                 status: "FAIL",
                 message: "Cannot veify user in this time",
+                error: err
             });
         }
         
@@ -41,7 +42,8 @@ router.post("/api/alert/remove", urlEncoded, (req, res) =>{
             if(err){
                 return res.json({
                     status: "FAIL",
-                    message: "Cannot remove alert data in this time"
+                    message: "Cannot remove alert data in this time",
+                    error: err
                 });
             }
 

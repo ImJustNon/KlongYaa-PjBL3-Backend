@@ -28,6 +28,7 @@ router.post("/api/user/validate", urlEncoded, async(req, res) => {
             return res.json({
                 status: "FAIL",
                 message: "Can't get information from database",
+                error: err
             });
         }
 

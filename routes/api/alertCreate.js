@@ -26,7 +26,8 @@ router.post("/api/alert/create", urlEncoded, async(req, res) => {
         if(err){
             return res.json({
                 status: "FAIL",
-                message: "Cannot veify user in this time"
+                message: "Cannot veify user in this time",
+                error: err
             }); 
         }
 
@@ -48,6 +49,7 @@ router.post("/api/alert/create", urlEncoded, async(req, res) => {
                 return res.json({
                     status: "FAIL",
                     message: "Cannot create information to database",
+                    error: err
                 });
             }
     
