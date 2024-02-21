@@ -51,6 +51,7 @@ router.post("/api/box/schedule/get", urlEncoded, async(req, res) => {
             let todayAlerts = [];
             alertData.forEach(alert =>{
                 const convertedDate = covertTimestampToLocalString(parseInt(timestamp));
+                console.log(convertedDate);
                 const convertedAlertDate = covertTimestampToLocalString(parseInt(alert.alert_time));
                 if(
                     convertedAlertDate.day === convertedDate.day &&
@@ -67,6 +68,7 @@ router.post("/api/box/schedule/get", urlEncoded, async(req, res) => {
                     });
                 }
             });
+            console.log()
             return res.json({
                 status: "OK",
                 message: "success",
